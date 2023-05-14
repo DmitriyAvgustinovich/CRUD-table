@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import CustomInput from '../CustomInput/CustomInput'
 import CustomButton from '../CustomButton/CustomButton'
@@ -17,6 +17,17 @@ function App() {
     isEdit: false,
     userIndex: null
   })
+
+  useEffect(() => {
+    const storedUsers = localStorage.users
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.users = JSON.stringify(users, editableUserData)
+  }, [users, editableUserData])
 
   const handleRemoveClick = ({ index }) => {
     setUsers(users.filter((user, userIndex) => userIndex !== index))
